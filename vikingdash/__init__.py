@@ -9,7 +9,6 @@ __license__ = "CC0"
 
 from flask import Flask
 from dotenv import load_dotenv
-from flask_socketio import SocketIO
 from pymongo import MongoClient
 import os
 
@@ -24,7 +23,6 @@ MONGODB Key : {MONGODB_KEY}""")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
-socketio = SocketIO(app)
 
 if MONGODB_KEY: mongodb_client = MongoClient(MONGODB_KEY)
 else: mongodb_client = MongoClient()
