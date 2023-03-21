@@ -1,0 +1,1 @@
+from vikingdash import app
