@@ -44,14 +44,26 @@
                                 <div class="col-xl-3"><label class="col-form-label"><strong>Event Name</strong></label></div>
                                 <div class="col-xl-8"><input class="form-control" type="text" placeholder="Qualifiers #1" name="name"></div>
                             </div>
-                        </form><input class="btn btn-primary" type="submit" value="Create a match">
+                            <div class="row">
+                                <div class="col-xl-3"><label class="col-form-label" style="color: var(--bs-red);"><strong>Red Team Name</strong></label></div>
+                                <div class="col-xl-8"><input class="form-control" type="text" value="Red Alliance" name="redname"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-3"><label class="col-form-label" style="color: var(--bs-blue);"><strong>Blue Team Name</strong></label></div>
+                                <div class="col-xl-8"><input class="form-control" type="text" value="Blue Alliance" name="bluename"></div>
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="Create a match">
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Retire Matches</h5>
+                        <h5 class="mb-0">
+                            Retire Matches
+                            <button class="btn btn-danger" type="button" id="delete_all">Delete all matches</button>
+                        </h5>
                     </div>
                     <div class="card-body">
                         {% include "backend/archive.html" %}
@@ -76,6 +88,7 @@
         </div>
     </div>
     <script src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/js/backend.js"></script>
 </body>
 
 </html>
