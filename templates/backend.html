@@ -20,6 +20,11 @@
         </div>
     </nav>
     <div class="container py-3">
+        {% if alert %}
+        <div class="alert alert-info" role="alert">
+            {{alert}}
+        </div>
+        {% endif %}
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
@@ -27,7 +32,7 @@
                         <h5 class="mb-0">Create a match</h5>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form method="post">
                             <div class="row">
                                 <div class="col-xl-3"><label class="col-form-label" style="color: var(--bs-red);"><strong>Red Alliance</strong></label></div>
                                 <div class="col-xl-8"><input class="form-control" type="text" placeholder="4039,3683,6854" required="" name="red"></div>
@@ -38,11 +43,11 @@
                             </div><code>Needs to be formatted like&nbsp;4039,3683,6854. Anything else wont work.&nbsp;</code>
                             <div class="row">
                                 <div class="col-xl-3"><label class="col-form-label"><strong>Time</strong></label></div>
-                                <div class="col-xl-8"><input class="form-control" type="time" name="time"></div>
+                                <div class="col-xl-8"><input class="form-control" type="time" name="time" required=""></div>
                             </div>
                             <div class="row">
                                 <div class="col-xl-3"><label class="col-form-label"><strong>Event Name</strong></label></div>
-                                <div class="col-xl-8"><input class="form-control" type="text" placeholder="Qualifiers #1" name="name"></div>
+                                <div class="col-xl-8"><input class="form-control" type="text" placeholder="Qualifiers #1" name="name" required=""></div>
                             </div>
                             <div class="row">
                                 <div class="col-xl-3"><label class="col-form-label" style="color: var(--bs-red);"><strong>Red Team Name</strong></label></div>
@@ -62,7 +67,6 @@
                     <div class="card-header">
                         <h5 class="mb-0">
                             Retire Matches
-                            <button class="btn btn-danger" type="button" id="delete_all">Delete all matches</button>
                         </h5>
                     </div>
                     <div class="card-body">
@@ -80,11 +84,21 @@
                         <h5 class="mb-0">Change Status</h5>
                     </div>
                     <div class="card-body">
-                        <form><input class="form-control" type="text" name="status" value="Welcome other teams!"></form><input class="btn btn-primary" type="submit" style="margin-top: 5px;" value="Update Panel">
+                        <input class="form-control" type="text" name="status" value="{{status}}" id="status_text"><input class="btn btn-primary" type="submit" style="margin-top: 5px;" value="Update Panel" id="set_status">
                     </div>
                 </div>
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Management</h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-danger" type="button" id="reset_kiosk">Reload Kiosk Page</button>
+                        <button class="btn btn-danger" type="button" id="delete_all">Delete all matches</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="static/bootstrap/js/bootstrap.min.js"></script>

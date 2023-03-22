@@ -31,4 +31,10 @@ database = mongodb_client["VikingDash"]
 coopertitions = database.coopertitions
 users = database.users
 
+import vikingdash.methods
+
+@app.context_processor
+def context_processor():
+    return dict(american_time=vikingdash.methods.american_time, alliance_list=vikingdash.methods.alliance_list)
+
 import vikingdash.routes
