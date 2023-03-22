@@ -2,13 +2,13 @@ console.log("Dashboard Javascript Loaded");
 
 document.getElementById("reset_kiosk").onclick = function(){
     if (confirm("Are you sure you want to reset the Kiosk?")){
-        fetch('/reset_kiosk').then(location.reload());
+        fetch('/reset_kiosk').then(location.href = "/redirect");
     }
 }
 
 document.getElementById("delete_all").onclick = function(){
     if (confirm("Are you sure you want to delete all coopertitions from the database?")){
-        fetch("/delete_all").then(location.reload());
+        fetch("/delete_all").then(location.href = "/redirect");
     }
 }
 
@@ -22,7 +22,7 @@ document.getElementById("set_status").onclick = function(){
             },
             body: JSON.stringify({"status": status})
         })
-        .then(location.reload());
+        .then(location.href = "/redirect");
     } else {
         alert("Missing Status!");
     }
@@ -41,7 +41,6 @@ function assignArchive(i){
                 blue_input = blue_inputs[j];
             }
         }
-        console.log(i);
         if (red_input.value != "" && blue_input.value != ""){
             if(confirm("Are you sure you want to archive "+i.getAttribute("archive")+"\n Red "+red_input.value+" vs Blue "+blue_input.value+"?")){
                 fetch("/archive", {
@@ -51,7 +50,7 @@ function assignArchive(i){
                     },
                     body: JSON.stringify({"red": red_input.value, "blue": blue_input.value, "match": i.getAttribute("archive")})
                 })
-                .then(location.reload());
+                .then(location.href = "/redirect");
             }
         } else {
             alert("Missing Values!");
@@ -78,7 +77,7 @@ for (i = 0; i < delete_inputs.length; i++){
                 },
                 body: JSON.stringify({"match": e.target.getAttribute("delete")})
             })
-            .then(location.reload());
+            .then(location.href = "/redirect");
         }
     }
 }
