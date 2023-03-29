@@ -9,27 +9,25 @@ __license__ = "CC0"
 
 from flask import Flask
 from dotenv import load_dotenv
-from pymongo import MongoClient
+from flask_sqlalchemy import SQLAlchemy
 import os
 
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY", "Secret!")
-MONGODB_KEY = os.getenv("MONGODB_KEY", None)
 
 print(f"""VikingDash Properties
-Secret Key  : {SECRET_KEY}
-MONGODB Key : {MONGODB_KEY}""")
+Secret Key  : {SECRET_KEY}""")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+db = SQLAlchemy(app)
 
-if MONGODB_KEY: mongodb_client = MongoClient(MONGODB_KEY)
-else: mongodb_client = MongoClient()
+import vikingdash.models
 
-database = mongodb_client["VikingDash"]
-coopertitions = database.coopertitions
-users = database.users
+with app.app_context():
+    db.create_all()
 
 import vikingdash.methods
 

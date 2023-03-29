@@ -9,9 +9,9 @@ def american_time(time : str):
     else:
         return f"{hour}:{spliced[1]} AM"
     
-def alliance_list(alliance : list):
+def alliance_list(alliances : str):
     product = ""
-    for team in alliance:
+    for team in alliances.split(","):
         if team == "6854":
             product += f" <b>{team}</b> -"
         else:

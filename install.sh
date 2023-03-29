@@ -5,6 +5,10 @@ sudo apt install xdotool unclutter
 echo "Installing chromium-browser"
 sudo apt install chromium-browser
 
+echo "Installing Python requirements"
+sudo apt install python3-pip
+pip install -r requirements.txt
+
 echo "Moving service"
 
 sudo mv /home/pi/VikingDash/vikingdash.service /lib/systemd/system/vikingdash.service

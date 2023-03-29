@@ -1,25 +1,18 @@
 from dataclasses import dataclass
+from vikingdash import db
+import sqlalchemy as sa
 
-@dataclass
-class Coopertition:
-    red : list
-    blue : list
-    name : str
-    time : str # PyMongo has no time object, ugh
-    completed = False
-    redname : str
-    bluename : str
-
-    def export(self):
-        return {
-            "red": self.red,
-            "blue": self.blue,
-            "name": self.name,
-            "time": self.time,
-            "completed": self.completed,
-            "redname": self.redname,
-            "bluename": self.bluename
-        }
+class Coopertition(db.Model):
+    id = sa.Column(sa.Integer, primary_key=True)
+    red = sa.Column(sa.String, nullable=False)
+    blue = sa.Column(sa.String, nullable=False)
+    name = sa.Column(sa.String, nullable=False)
+    time = sa.Column(sa.String, nullable=False)
+    completed = sa.Column(sa.Boolean, nullable=False)
+    redname = sa.Column(sa.String, nullable=False)
+    bluename = sa.Column(sa.String, nullable=False)
+    redpoints = sa.Column(sa.Integer, nullable=True)
+    bluepoints = sa.Column(sa.Integer, nullable=True)
 
 class Status:
     def __init__(self, status):

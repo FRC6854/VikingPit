@@ -1,4 +1,4 @@
-from vikingdash import app, coopertitions
+from vikingdash import app, db
 from vikingdash.models import Status, Reloader, Coopertition
 from vikingdash.methods import american_time
 from flask import render_template, request, redirect, url_for
@@ -11,8 +11,8 @@ def index():
     return render_template(
         "index.html",
         status=status,
-        current=coopertitions.find({"completed": False}),
-        past=coopertitions.find({"completed": True})
+        current=Coopertition.query.filter_by(completed = False).all(),
+        past=Coopertition.query.filter_by(completed = True).all()
     )
 
 @app.route("/dashboard", methods=["GET", "POST"])
@@ -20,15 +20,24 @@ def dashboard():
     alert = None
     if request.method == "POST":
         form = request.form
-        mycoop = Coopertition(form["red"].split(","), form["blue"].split(","), form["name"], american_time(form["time"]), form["redname"], form["bluename"])
-        if coopertitions.find_one({"name": form["name"]}):
+        mycoop = Coopertition(
+            red = form["red"],
+            blue = form["blue"],
+            name = form["name"],
+            time = american_time(form["time"]),
+            redname = form["redname"],
+            bluename = form["bluename"],
+            completed = False
+        )
+        if Coopertition.query.filter_by(name = form["name"]).first():
             alert = "Name already taken!"
         else:
-            coopertitions.insert_one(mycoop.export())
+            db.session.add(mycoop)
+            db.session.commit()
             alert = f"Successfully added coopertition {form['name']}!"
             reset_kiosk()
 
-    coops = list(coopertitions.find({"completed": False}))
+    coops = Coopertition.query.filter_by(completed = False).all()
     return render_template(
         "backend.html",
         status=status,
@@ -42,7 +51,11 @@ def redirect_dash():
 
 @app.route("/archive", methods=["POST"])
 def archive():
-    query = coopertitions.update_one({"name": request.json["match"]}, {"$set": {"completed": True, "redpoints": request.json["red"], "bluepoints": request.json["blue"]}})
+    query = Coopertition.query.filter_by(name = request.json["match"]).first()
+    query.completed = True
+    query.redpoints = request.json["red"]
+    query.bluepoints = request.json["blue"]
+    db.session.commit()
     reset_kiosk()
     return "OK"
 
@@ -54,9 +67,10 @@ def setstatus():
 
 @app.route("/delete", methods=["POST"])
 def delete():
-    query = coopertitions.delete_one({"name": request.json["match"]})
+    query = Coopertition.query.filter_by(name = request.json["match"]).first()
+    db.session.delete(query)
+    db.session.commit()
     reset_kiosk()
-    print(query.deleted_count)
     return "OK"
 
 @app.route("/reload", methods=["GET"])
@@ -74,6 +88,9 @@ def reset_kiosk():
 
 @app.route("/delete_all", methods=["GET"])
 def delete_all_coopertitions():
-    coopertitions.delete_many({})
+    queries = Coopertition.query.all()
+    for i in queries:
+        db.session.delete(i)
+    db.session.commit()
     reset_kiosk()
     return "OK"
