@@ -1,5 +1,5 @@
 # VikingDash
-A Flask and MongoDB powered dashboard to help teams and passers by FRC Information  
+A Flask and SQLite powered dashboard to help teams and passers by FRC Information  
 
 VikingDash Dashboard, which should be run in Kiosk mode with a Raspberry Pi or simmilar
 ![VikingDash Panel](/images/panel.png "VikingDash Panel")
